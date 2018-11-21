@@ -3,10 +3,6 @@ from scipy.interpolate import CubicSpline
 from scipy import interpolate
 
 
-
-
-
-
 def better_spline_to_concavity(csx, csy, tVals, t):
         i = 0
 
@@ -27,8 +23,6 @@ def better_spline_to_concavity(csx, csy, tVals, t):
         return (quotient_of_dydx / np.polyval(dxdt, t))
 
 
-
-print "hi"
 
 
 
