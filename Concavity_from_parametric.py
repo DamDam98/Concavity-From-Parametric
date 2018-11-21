@@ -3,6 +3,37 @@ from scipy.interpolate import CubicSpline
 from scipy import interpolate
 
 
+
+
+
+
+def better_spline_to_concavity(csx, csy, tVals, t):
+        i = 0
+
+        for k in range(len(tVals)):
+                if tVals[k] > t:
+                        i = k - 1
+
+        tX = [csx.c[0][i], csx.c[1][i], csx.c[2][i], csx.c[3][i]]
+        tY = [csy.c[0][i], csy.c[1][i], csy.c[2][i], csy.c[3][i]]
+        dydt = np.polyder(tY)
+        dxdt = np.polyder(tX)
+
+        # quotient rule
+        top_eq = np.polysub(np.polymul(np.polyder(dydt), dxdt), np.polymul(np.polyder(dxdt), dydt))
+        bottom_val = np.polyval(dxdt, t) ** 2
+        quotient_of_dydx = (float(np.polyval(top_eq, t)/ bottom_val))
+
+        return (quotient_of_dydx / np.polyval(dxdt, t))
+
+
+
+print "hi"
+
+
+
+
+
 # to be deleted from here to...
 
 """
@@ -74,31 +105,6 @@ csy = CubicSpline(t, wpyInit)
 
 # here
 
-
-
-
-
-
-
-
-def better_spline_to_concavity(csx, csy, tVals, t):
-        i = 0
-
-        for k in range(len(tVals)):
-                if tVals[k] > t:
-                        i = k - 1
-
-        tX = [csx.c[0][i], csx.c[1][i], csx.c[2][i], csx.c[3][i]]
-        tY = [csy.c[0][i], csy.c[1][i], csy.c[2][i], csy.c[3][i]]
-        dydt = np.polyder(tY)
-        dxdt = np.polyder(tX)
-
-        # quotient rule
-        top_eq = np.polysub(np.polymul(np.polyder(dydt), dxdt), np.polymul(np.polyder(dxdt), dydt))
-        bottom_val = np.polyval(dxdt, t) ** 2
-        quotient_of_dydx = (float(np.polyval(top_eq, t)/ bottom_val))
-
-        return (quotient_of_dydx / np.polyval(dxdt, t))
 
 
 
